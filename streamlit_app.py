@@ -1,8 +1,20 @@
+import base64
 import streamlit as st
 from openai import OpenAI
 
 # Show title and description.
 st.title("📄 Scientific Document question answering")
+
+def display_document(file):
+    base64_pdf = base64.b64encode(file.read()).decode("utf-8")
+    pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
+    st.markdown(pdf_display, unsafe_allow_html=True)
+
+pdf = st.file_uploader("Upload your PDF", type="pdf")
+
+if pdf:
+    display_document(pdf)
+    
 st.write(
     "Upload a document below and ask a question about it – GPT will answer! "
     "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
