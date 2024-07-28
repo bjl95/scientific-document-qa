@@ -2,17 +2,15 @@ import streamlit as st
 import base64
 
 def app():
-    st.title("Scientific Paper Question Answering with Vertex AI")
+    st.title("Research Article Question Answering with Vertex AI")
     
     # Upload PDF file
     uploaded_file = st.file_uploader("Upload a PDF document", type="pdf")
     if uploaded_file:
-        # Read PDF file
-        pdf_bytes = uploaded_file.read()
-        base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
-        
-        # Display PDF using Streamlit
-        st.markdown(f'<embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf">', unsafe_allow_html=True)
+        # Display PDF
+        base64_pdf = base64.b64encode(uploaded_file.read()).decode('utf-8')
+        pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="800" height="800" type="application/pdf"></iframe>'
+        st.markdown(pdf_display, unsafe_allow_html=True)
         
         # Extract text from PDF
         # (This step requires OCR or a library like PyMuPDF to extract text)
@@ -31,10 +29,10 @@ def app():
                 "top_k": 40,
             }
             prompt_template = f"""From the following context, answer the query:\n\nContext: {document_text}\n\nQuery: {user_query}"""
-          #  response = client.llm2(prompt_template, "text-bison@001", parameters)
+            #response = client.llm2(prompt_template, "text-bison@001", parameters)
             
-            # Display the response
-         #   st.info(f"Response: {response}")
+           # Display the response
+         #  st.info(f"Response: {response}")
 
 # Function to extract text from PDF
 def extract_text_from_pdf(uploaded_file):
